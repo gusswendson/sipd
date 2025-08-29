@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Differentiating SIPD and Primary Psychotic Disorders</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Slate & Sage -->
+    <!-- Application Structure Plan: The SPA is designed as a single-page vertical scrolling experience, organized into thematic sections for intuitive navigation. This structure was chosen over a tabbed or dashboard layout to guide the user through a logical diagnostic flow, from initial challenge to detailed comparison and long-term outcomes. The flow is: 1) Introduction (setting the stage), 2) Core Diagnostic Principles (foundational knowledge), 3) Interactive Differentiators (the core comparative tool), 4) Risk of Conversion (data-driven insights), and 5) Clinical Takeaways (actionable summary). This linear, story-like progression helps users, likely clinicians or students, build their understanding layer by layer, which is more effective for a complex medical topic than a fragmented dashboard. Key interactions include smooth scrolling navigation and a dynamic bar chart to explore substance-specific risks. -->
+    <!-- Visualization & Content Choices: The primary visualization is a bar chart showing the risk of conversion from SIPD to Schizophrenia. Report Info: Conversion rates vary significantly by substance. Goal: Compare these risks visually. Viz Method: A Chart.js bar chart was chosen for its clarity in comparing discrete categories. Interaction: The chart is dynamically rendered and includes tooltips for precise data points. Justification: This visual comparison is far more impactful and easier to digest than a simple table of numbers, directly supporting the report's emphasis on substance-specific risk. Other "visualizations" are structured HTML tables and icon-driven lists, chosen for their high readability and scannability to present comparative clinical features without visual clutter, adhering to the NO SVG/Mermaid rule. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #334155; /* slate-700 */
+        }
+        .section-title {
+            color: #1e293b; /* slate-800 */
+        }
+        .nav-link {
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #475569; /* slate-600 */
+            border-bottom-color: #64748b; /* slate-500 */
+        }
+        .card {
+            background-color: white;
+            border: 1px solid #e2e8f0; /* slate-200 */
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh;
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-200">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-slate-800">Psychosis: A Diagnostic Guide</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#introduction" class="nav-link text-slate-500 font-medium border-b-2 border-transparent pb-1">Introduction</a>
+                <a href="#principles" class="nav-link text-slate-500 font-medium border-b-2 border-transparent pb-1">Principles</a>
+                <a href="#differentiators" class="nav-link text-slate-500 font-medium border-b-2 border-transparent pb-1">Differentiators</a>
+                <a href="#conversion" class="nav-link text-slate-500 font-medium border-b-2 border-transparent pb-1">Conversion Risk</a>
+                <a href="#takeaways" class="nav-link text-slate-500 font-medium border-b-2 border-transparent pb-1">Takeaways</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Section 1: Introduction -->
+        <section id="introduction" class="mb-24 text-center">
+            <h2 class="text-4xl font-bold tracking-tight section-title mb-4">The Diagnostic Dilemma</h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600">
+                Distinguishing a transient Substance/Medication-Induced Psychotic Disorder (SIPD) from the onset of a chronic Primary Psychotic Disorder like schizophrenia is a critical challenge. An accurate diagnosis is paramount as it dictates prognosis, long-term management, and patient outcomes. This guide provides an interactive framework for navigating this complex differential.
+            </p>
+        </section>
+
+        <!-- Section 2: Core Diagnostic Principles -->
+        <section id="principles" class="mb-24">
+            <h2 class="text-3xl font-bold section-title mb-8 text-center">Core Diagnostic Principles</h2>
+            <div class="grid md:grid-cols-2 gap-8 items-start">
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-slate-800 mb-3">Substance-Induced Psychosis (SIPD)</h3>
+                    <p class="text-slate-600 mb-4">The core feature is psychosis (delusions/hallucinations) that is a direct physiological consequence of a substance. The diagnosis hinges on a clear temporal link.</p>
+                    <ul class="space-y-2 text-slate-600">
+                        <li class="flex items-start"><span class="text-emerald-500 mr-3 mt-1">&#10003;</span><span>Symptoms emerge during or soon after intoxication or withdrawal.</span></li>
+                        <li class="flex items-start"><span class="text-emerald-500 mr-3 mt-1">&#10003;</span><span>Symptoms are not better explained by an independent psychotic disorder.</span></li>
+                        <li class="flex items-start"><span class="text-emerald-500 mr-3 mt-1">&#10003;</span><span>Symptoms typically resolve within one month of sustained abstinence.</span></li>
+                    </ul>
+                </div>
+                <div class="card p-6">
+                    <h3 class="text-xl font-semibold text-slate-800 mb-3">Primary Psychotic Disorders</h3>
+                    <p class="text-slate-600 mb-4">Psychosis is the defining feature of the illness itself, independent of substance effects. The diagnosis requires excluding a substance-induced etiology.</p>
+                    <ul class="space-y-2 text-slate-600">
+                        <li class="flex items-start"><span class="text-rose-500 mr-3 mt-1">&#10007;</span><span>Symptoms may predate substance use or persist for >1 month after abstinence.</span></li>
+                        <li class="flex items-start"><span class="text-rose-500 mr-3 mt-1">&#10007;</span><span>Often includes a prodromal phase of declining function.</span></li>
+                        <li class="flex items-start"><span class="text-rose-500 mr-3 mt-1">&#10007;</span><span>Characterized by a chronic course and often prominent negative symptoms.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Key Differentiators -->
+        <section id="differentiators" class="mb-24">
+            <h2 class="text-3xl font-bold section-title mb-8 text-center">Clinical Differentiators at a Glance</h2>
+             <p class="max-w-3xl mx-auto text-lg text-slate-600 text-center mb-12">
+                While no single feature is definitive, a pattern of evidence across multiple domains guides the diagnosis. This section provides a comparative overview of typical presentations, helping to build a comprehensive clinical picture. The evaluation of these features over time, especially during a period of abstinence, is key.
+            </p>
+            <div class="overflow-x-auto bg-white rounded-lg shadow">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-100">
+                        <tr>
+                            <th class="p-4 font-semibold text-slate-700">Clinical Domain</th>
+                            <th class="p-4 font-semibold text-slate-700">Typical in SIPD</th>
+                            <th class="p-4 font-semibold text-slate-700">Typical in Primary Psychosis</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="p-4 font-medium text-slate-800">Onset</td>
+                            <td class="p-4 text-slate-600">Acute and rapid, linked to intoxication/withdrawal.</td>
+                            <td class="p-4 text-slate-600">Often insidious, with a gradual prodromal phase.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium text-slate-800">Hallucinations</td>
+                            <td class="p-4 text-slate-600">Visual and tactile are common and often prominent.</td>
+                            <td class="p-4 text-slate-600">Auditory (especially voices) are most common.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium text-slate-800">Negative Symptoms</td>
+                            <td class="p-4 text-slate-600">Absent or mild and transient; resolve with abstinence.</td>
+                            <td class="p-4 text-slate-600">Prominent and persistent (avolition, alogia, flat affect).</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium text-slate-800">Cognitive Symptoms</td>
+                            <td class="p-4 text-slate-600">Confusion, disorientation, memory issues that resolve.</td>
+                            <td class="p-4 text-slate-600">Enduring deficits in executive function, memory, attention.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium text-slate-800">Insight</td>
+                            <td class="p-4 text-slate-600">Often improves significantly after acute phase.</td>
+                            <td class="p-4 text-slate-600">Often persistently poor (anosognosia).</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium text-slate-800">Family History</td>
+                            <td class="p-4 text-slate-600">Higher rates of substance use disorders.</td>
+                            <td class="p-4 text-slate-600">Higher rates of schizophrenia spectrum disorders.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-medium text-slate-800">Premorbid Functioning</td>
+                            <td class="p-4 text-slate-600">Generally good, with decline linked to substance use.</td>
+                            <td class="p-4 text-slate-600">Often poorer social or academic functioning pre-psychosis.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 4: Risk of Conversion -->
+        <section id="conversion" class="mb-24">
+            <h2 class="text-3xl font-bold section-title mb-4 text-center">The Longitudinal View: Risk of Conversion</h2>
+            <p class="max-w-3xl mx-auto text-lg text-slate-600 text-center mb-12">
+                A diagnosis of SIPD is not always the final word. A significant percentage of individuals, especially those with psychosis induced by certain substances, will later "convert" to a diagnosis of schizophrenia. This chart illustrates the varying levels of risk, highlighting that for many, a substance may act as a trigger for an underlying vulnerability.
+            </p>
+            <div class="card p-6 md:p-8">
+                <div class="chart-container">
+                    <canvas id="conversionRiskChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Clinical Takeaways -->
+        <section id="takeaways" class="mb-12">
+            <h2 class="text-3xl font-bold section-title mb-8 text-center">Key Clinical Takeaways</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="card p-6">
+                    <div class="flex items-center justify-center bg-slate-100 rounded-full w-12 h-12 mb-4">
+                        <span class="text-2xl">⏳</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Maintain a Provisional Stance</h3>
+                    <p class="text-slate-600">Treat any initial diagnosis in the context of substance use as a working hypothesis to be tested over time, especially with a documented period of abstinence.</p>
+                </div>
+                <div class="card p-6">
+                    <div class="flex items-center justify-center bg-slate-100 rounded-full w-12 h-12 mb-4">
+                        <span class="text-2xl">👥</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Prioritize Collateral History</h3>
+                    <p class="text-slate-600">Family and friends are invaluable for establishing a reliable timeline of symptoms, substance use, and premorbid functioning, which is often the most critical diagnostic data.</p>
+                </div>
+                <div class="card p-6">
+                    <div class="flex items-center justify-center bg-slate-100 rounded-full w-12 h-12 mb-4">
+                        <span class="text-2xl">📈</span>
+                    </div>
+                    <h3 class="text-lg font-semibold text-slate-800 mb-2">Monitor High-Risk Patients</h3>
+                    <p class="text-slate-600">Patients with SIPD from cannabis, hallucinogens, or amphetamines are at high risk for conversion and require assertive, long-term follow-up.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-white border-t border-slate-200">
+        <div class="container mx-auto px-6 py-4 text-center text-slate-500">
+            <p>&copy; 2025 Clinical Diagnostic Tools. Information for educational purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const chartCtx = document.getElementById('conversionRiskChart').getContext('2d');
+            const conversionData = {
+                labels: ['Cannabis', 'Hallucinogens', 'Amphetamines', 'Alcohol', 'Opioids', 'Sedatives'],
+                datasets: [{
+                    label: 'Estimated Conversion Rate to Schizophrenia (%)',
+                    data: [41, 26, 22, 10, 12, 9],
+                    backgroundColor: [
+                        'rgba(5, 150, 105, 0.6)', // Emerald
+                        'rgba(124, 58, 237, 0.6)', // Violet
+                        'rgba(219, 39, 119, 0.6)', // Fuchsia
+                        'rgba(2, 132, 199, 0.6)', // Sky
+                        'rgba(249, 115, 22, 0.6)', // Orange
+                        'rgba(100, 116, 139, 0.6)' // Slate
+                    ],
+                    borderColor: [
+                        'rgba(5, 150, 105, 1)',
+                        'rgba(124, 58, 237, 1)',
+                        'rgba(219, 39, 119, 1)',
+                        'rgba(2, 132, 199, 1)',
+                        'rgba(249, 115, 22, 1)',
+                        'rgba(100, 116, 139, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            };
+
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 50,
+                        title: {
+                            display: true,
+                            text: 'Conversion Rate (%)',
+                            font: {
+                                size: 14,
+                                weight: '500'
+                            },
+                            color: '#475569'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Inducing Substance',
+                            font: {
+                                size: 14,
+                                weight: '500'
+                            },
+                             color: '#475569'
+                        },
+                        ticks: {
+                            font: {
+                                size: 12
+                            },
+                            color: '#475569',
+                             maxRotation: 0,
+                             minRotation: 0,
+                             callback: function(value, index, values) {
+                                const label = this.getLabelForValue(value);
+                                if (label.length > 16) {
+                                    return label.split(' ').map(word => word.length > 8 ? word.substring(0,8) + '...' : word);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Risk of Conversion from SIPD to Schizophrenia by Substance',
+                        font: {
+                            size: 18,
+                            weight: '600'
+                        },
+                        color: '#1e293b',
+                        padding: {
+                            top: 10,
+                            bottom: 30
+                        }
+                    }
+                }
+            };
+
+            new Chart(chartCtx, {
+                type: 'bar',
+                data: conversionData,
+                options: chartOptions
+            });
+
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active', 'text-slate-800', 'border-slate-500');
+                            link.classList.add('text-slate-500', 'border-transparent');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active', 'text-slate-800', 'border-slate-500');
+                                link.classList.remove('text-slate-500', 'border-transparent');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
